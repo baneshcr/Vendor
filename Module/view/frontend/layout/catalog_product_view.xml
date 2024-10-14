@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- <referenceContainer name="product.info.options.wrapper.bottom">
+            <block class="Magento\Framework\View\Element\Template" name="vendor_module_shipping_address" before="-" template="Vendor_Module::shipping-address.phtml"/>
+        </referenceContainer> -->
+
+        <referenceContainer name="product.info.options.wrapper.bottom">
+            <block class="Vendor\Module\Block\ShippingAddress" 
+                name="vendor_module_shipping_address" before="-" 
+                template="Vendor_Module::shipping-address.phtml"/>
+        </referenceContainer>
+
+
+    </body>
+</page>

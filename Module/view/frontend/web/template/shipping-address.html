@@ -1,0 +1,122 @@
+<div class="fieldset">
+    <div class="actions">
+        <button type="button"
+                title="Proceed to Shipment"
+                class="action"
+                id="proceed-to-shipment" 
+                data-bind="click: toggleShippingEntry" disabled>
+            <span>Proceed to Shipment</span>
+        </button>
+    </div>
+</div>
+
+<div id="shipping-entry" data-bind="visible: isShippingEntryVisible">
+    <div data-bind="ifnot: isCustomerLoggedIn">
+        <div class="fieldset">
+            <div class="field">
+                <label for="saved-addresses">Please <a href="/customer/account/login/">login</a> to proceed to the shipment</label>
+            </div>
+        </div>
+    </div>
+
+    <div data-bind="if: isCustomerLoggedIn">
+
+        <!-- Display saved addresses if the customer is logged in -->
+        <div class="fieldset">
+            <div class="field">
+                <label for="saved-addresses">Select the Shipping Address:</label>
+                <select name="selectedSAddress" id="selectedSAddress" 
+                        data-bind="options: savedAddresses, value: selectedAddress, optionsText: 'formatted_address', 
+                                   optionsValue: 'id', attr: { 'data-validate': selectedAddress() === 'new' ? null : '{required:true}' }">
+                </select>  
+            </div>
+        </div>
+
+        <!-- If 'New Address' is selected, show the new address form -->
+        <div class="new-shipping-address fieldset" data-bind="visible: selectedAddress() === 'new'">
+        <div class="shipping-address-form">
+            <fieldset class="fieldset">
+                <legend>Shipping Address</legend>
+
+
+                <!-- First Name field -->
+                <div class="field">
+                    <label for="firstname">First Name <span class="required">*</span></label>
+                    <input type="text" name="firstname" id="firstname" data-bind="value: newShippingAddress.firstname, 
+                    attr: { 'data-validate': '{required:true}' }" />
+                </div>
+
+                <!-- Last Name field -->
+                <div class="field">
+                    <label for="lastname">Last Name <span class="required">*</span></label>
+                    <input type="text" name="lastname" id="lastname" data-bind="value: newShippingAddress.lastname, 
+                    attr: { 'data-validate': '{required:true}' }" />
+                </div>
+
+                <!-- Street Address field -->
+                <div class="field">
+                    <label for="street">Street Address <span class="required">*</span></label>
+                    <input type="text" name="street" id="street" data-bind="value: newShippingAddress.street, 
+                    attr: { 'data-validate': '{required:true}' }" />
+                </div>
+
+                <!-- City field -->
+                <div class="field">
+                    <label for="city">City <span class="required">*</span></label>
+                    <input type="text" name="city" id="city" data-bind="value: newShippingAddress.city, 
+                    attr: { 'data-validate': '{required:true}' }" />
+                </div>
+
+                <!-- Country dropdown -->
+                <div class="field">
+                    <label for="country_id">Country <span class="required">*</span></label>
+                    <select name="country_id" id="country_id"
+                            data-bind="options: availableCountries, 
+                                    optionsText: 'full_name_locale', 
+                                    value: selectedCountry, 
+                                    optionsValue: 'id',
+                                    event: { change: countryChanged }, 
+                                    attr: { 'data-validate': '{required:true}' }">
+                    </select>
+                </div>
+
+                <!-- Region dropdown or text input -->
+                <div class="field" data-bind="visible: availableRegions().length > 0">
+                    <label for="region_id">Region/State <span class="required">*</span></label>
+                    <select name="region_id" id="region_id"
+                            data-bind="options: availableRegions, 
+                                    optionsText: 'name', 
+                                    value: selectedRegion, 
+                                    optionsValue: 'id', 
+                                    attr: { 'data-validate': '{required:true}' }">
+                    </select>
+                </div>
+
+                <!-- If no regions available, use a text input for region -->
+                <div class="field" data-bind="visible: availableRegions().length === 0">
+                    <label for="region">Region/State <span class="required">*</span></label>
+                    <input type="text" name="region" id="region" data-bind="value: newShippingAddress.region, 
+                    attr: { 'data-validate': '{required:true}' }" />
+                </div>
+
+                <!-- Postcode field -->
+                <div class="field">
+                    <label for="postcode">Postcode <span class="required">*</span></label>
+                    <input type="text" name="postcode" id="postcode" data-bind="value: newShippingAddress.postcode, 
+                    attr: { 'data-validate': '{required:true}' }" />
+                </div>
+
+                <!-- Telephone field -->
+                <div class="field">
+                    <label for="telephone">Telephone <span class="required">*</span></label>
+                    <input type="text" name="telephone" id="telephone" data-bind="value: newShippingAddress.telephone, 
+                    attr: { 'data-validate': '{required:true}' }" />
+                </div>
+            </fieldset>
+
+            <!-- Add the following within the form element -->
+            <input type="hidden" name="shipping_address_data" data-bind="value: JSON.stringify(getShippingAddressData())" />
+    
+        </div>
+    </div>
+</div>

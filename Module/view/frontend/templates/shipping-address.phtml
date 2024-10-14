@@ -1,0 +1,23 @@
+<?php
+$isEnabled = $block->isEnabled();
+
+if ($isEnabled): ?>
+
+<div id="shipping-address-section" data-bind="scope: 'shippingAddressComponent'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+{
+    "#shipping-address-section": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "shippingAddressComponent": {
+                    "component": "Vendor_Module/js/shipping-address"
+                }
+            }
+        }
+    }
+}
+</script>
+<?php endif; ?>
